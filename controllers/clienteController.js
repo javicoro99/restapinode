@@ -10,7 +10,7 @@ exports.nuevoCliente = async (req, res, next) => {
     });
   } catch (e) {
     // si hay un error, console.log y next
-    console.log(e);
+    res.send(e); // para poder debuggear en el front se añade el send y envia el error
     next();
   }
 };
@@ -50,7 +50,7 @@ exports.actualizarCliente = async (req, res, next) => {
     );
     res.json(cliente);
   } catch (e) {
-    console.log(e);
+    res.send(e);
     next();
   }
 };

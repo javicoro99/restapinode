@@ -80,7 +80,7 @@ exports.actualizarProducto = async (req, res, next) => {
     if (req.file) {
       nuevoProducto.imagen = req.file.filename;
     } else {
-      let productoAnterior = await Productos.findById(req.params, idProducto);
+      let productoAnterior = await Productos.findById(req.params.idProducto);
       nuevoProducto.imagen = productoAnterior.imagen;
     }
     let producto = await Productos.findOneAndUpdate(
@@ -113,6 +113,18 @@ exports.eliminarProducto = async (req, res, next) => {
     await Productos.findByIdAndDelete({ _id: req.params.idProducto });
 
     res.json({ mensaje: "El producto se ah eliminado" });
+  } catch (e) {
+    console.log(e);
+    next();
+  }
+};
+
+exports.buscarProducto = async (req, res, next) => {
+  try {
+    const { query } = req.params;
+    const producto = await Productos.find({ nombre: new RegExp(query, "i") });
+
+    res.json(producto);
   } catch (e) {
     console.log(e);
     next();
